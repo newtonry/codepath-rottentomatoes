@@ -13,16 +13,20 @@ class ErrorView: UIView {
     @IBOutlet weak var label: UILabel!
 
     func expand() {
-        let expandedFrame = CGRectMake(0, 0, self.frame.width, 20)
-    
+        
+        // for some reason the frame width was getting overwritten to 0 from the storyboard. Hence I need this first to make the animation look right
+        self.frame = CGRectMake(0, 0, 380, 45)
+        let expandedFrame = CGRectMake(0, 65, 380, 45)
+
+        
         UIView.animateWithDuration(1, animations: {
             self.frame = expandedFrame
-            self.label.frame = expandedFrame
+            self.label.frame = CGRectMake(0, 0, 380, 45)
         })
     }
     
     func collapse() {
-        let collapsedFrame = CGRectMake(0, 0, self.frame.width, 0)
+        let collapsedFrame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width, 0)
         UIView.animateWithDuration(1, animations: {
             self.frame = collapsedFrame
             self.label.frame = collapsedFrame

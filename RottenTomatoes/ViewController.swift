@@ -8,11 +8,16 @@
 
 import UIKit
 
-class ViewController: UITableViewController  {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarDelegate, UISearchBarDelegate  {
+
     
     var moviesArray: NSArray?
-    
+
     @IBOutlet weak var errorView: ErrorView!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    var refreshControl: UIRefreshControl!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,18 +37,21 @@ class ViewController: UITableViewController  {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+
         
         let successCallback = {
             (moviesArray: NSArray) -> Void in
                 self.moviesArray = moviesArray
                 MBProgressHUD.hideHUDForView(self.view, animated: true)
+                self.searchBar.hidden = false
                 self.tableView.reloadData()
         }
-
         Movie.getTopMovies(successCallback, errorHandler)
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+   
+        
         if let array = moviesArray {
             return array.count
         } else {
@@ -52,6 +60,9 @@ class ViewController: UITableViewController  {
     }
 
     func errorHandler(error: NSError) -> Void {
+        
+        
+        
         self.errorView.expandWithErrorMessage(error.localizedDescription)
     }
 
@@ -68,7 +79,10 @@ class ViewController: UITableViewController  {
         Movie.getTopMovies(successCallback, errorCallback: self.errorHandler)
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    
+        
+        
         let movie = moviesArray![indexPath.row] as Movie
         let cell = tableView.dequeueReusableCellWithIdentifier("topCell") as MovieTableViewCell
         cell.movieTitleLabel.text = movie.title
@@ -97,7 +111,7 @@ class ViewController: UITableViewController  {
         return cell
     }
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let detailsViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("MovieDetailsViewController") as MovieDetailsViewController
         let movie = moviesArray![indexPath.row] as Movie
         detailsViewController.movie = movie
