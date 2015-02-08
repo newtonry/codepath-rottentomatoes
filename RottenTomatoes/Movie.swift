@@ -11,17 +11,20 @@ import Foundation
 private let RtApiKey = "mvvztd3waum3d5wuzu8bb2s9"
 
 class Movie {
-    var title: String?
-    var synopsis: String?
-    var thumbnailPosterUrl: NSURL?
-    var posterUrl: NSURL?
+    let title: String?
+    let synopsis: String?
+    let runtime: Int?
+    let score: Int?
+    let thumbnailPosterUrl: NSURL?
+    let posterUrl: NSURL?
     var thumbnailImage: UIImage?
     var posterImage: UIImage?
 
     
-    init(title: String, synopsis: String, thumbnailPosterUrl: NSURL, posterUrl: NSURL) {
+    init(title: String, synopsis: String, runtime: Int, thumbnailPosterUrl: NSURL, posterUrl: NSURL) {
         self.title = title
         self.synopsis = synopsis
+        self.runtime = runtime
         self.thumbnailPosterUrl = thumbnailPosterUrl
         self.posterUrl = posterUrl
 
@@ -33,6 +36,11 @@ class Movie {
     convenience init(jsonMovie: NSDictionary) {
         let title = jsonMovie["title"] as String
         let synopsis = jsonMovie["synopsis"] as String
+        
+        let runtime = jsonMovie["runtime"] as Int
+        
+        
+        
         let posters = jsonMovie["posters"] as NSDictionary
         let thumbnailPosterString = posters["thumbnail"] as String
         let posterString = posters["original"] as String
@@ -40,7 +48,7 @@ class Movie {
         let thumbnailPosterUrl = NSURL(string: thumbnailPosterString)
         let posterUrl = NSURL(string: posterString.stringByReplacingOccurrencesOfString("_tmb.jpg", withString: "_ori.jpg", options: nil, range: nil))
 
-        self.init(title: title, synopsis: synopsis, thumbnailPosterUrl: thumbnailPosterUrl!, posterUrl: posterUrl! )
+        self.init(title: title, synopsis: synopsis, runtime: runtime, thumbnailPosterUrl: thumbnailPosterUrl!, posterUrl: posterUrl! )
     }    
 
     class func getTopMovies(successCallback: (NSArray) -> Void, errorCallback: ((NSError) -> Void)?) {
@@ -57,6 +65,8 @@ class Movie {
                 
                 for jsonMovie in dictionary["movies"] as NSArray! {
                     mutableMoviesArray.addObject(Movie(jsonMovie: jsonMovie as NSDictionary))
+
+                
                 }
 
                 successCallback(mutableMoviesArray as NSArray)
