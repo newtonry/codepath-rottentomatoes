@@ -16,22 +16,25 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var errorView: ErrorView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
-    
+    @IBOutlet weak var tabBar: UITabBar!
+    @IBOutlet weak var barItemDvd: UITabBarItem!
+    @IBOutlet weak var barItemBoxOffice: UITabBarItem!
     var refreshControl: UIRefreshControl!
 
+    let barItemDict: NSDictionary = [0: "DVD", 1: "Box Office"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationController?.navigationBar.barTintColor = UIColor.blackColor()
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.orangeColor()]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+
+//        self.tabBar.selectedItem(barItemBoxOffice)
+        
         
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
-        if let moviesArray = moviesArray {
-            self.tableView.insertSubview(self.refreshControl!, atIndex: moviesArray.count)
-        } else {
-            self.tableView.insertSubview(self.refreshControl!, atIndex: 0)
-        }
+        self.tableView.insertSubview(self.refreshControl!, atIndex: 0)
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -60,9 +63,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
 
     func errorHandler(error: NSError) -> Void {
-        
-        
-        
         self.errorView.expandWithErrorMessage(error.localizedDescription)
     }
 
@@ -79,18 +79,33 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         Movie.getTopMovies(successCallback, errorCallback: self.errorHandler)
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem!) {
+        let selectedTab: String = barItemDict[item.tag] as String
+
+        MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        
+        let successCallback = {
+            (moviesArray: NSArray) -> Void in
+            self.moviesArray = moviesArray
+            MBProgressHUD.hideHUDForView(self.view, animated: true)
+            self.searchBar.hidden = false
+            self.tableView.reloadData()
+        }
+        
+        if (selectedTab == "DVD") {
+            Movie.getTopMovies(successCallback, errorCallback: nil)
+        } else if (selectedTab == "Box Office") {
+            Movie.getInTheater(successCallback, errorCallback: nil)
+        }
+    }
     
-        
-        
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let movie = moviesArray![indexPath.row] as Movie
         let cell = tableView.dequeueReusableCellWithIdentifier("topCell") as MovieTableViewCell
         cell.movieTitleLabel.text = movie.title
         let thumbnailUrl = movie.thumbnailPosterUrl
-        
-        
-        
-        
+
         let imageLoadSuccess = {
             (request: NSURLRequest!, reponse: NSHTTPURLResponse!, image: UIImage!) -> Void in
             movie.thumbnailImage = image

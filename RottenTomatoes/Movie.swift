@@ -9,6 +9,9 @@
 import Foundation
 
 private let RtApiKey = "mvvztd3waum3d5wuzu8bb2s9"
+private let TopRentalsEndpoint = "http://api.rottentomatoes.com/api/public/v1.0/lists/dvds/top_rentals.json"
+private let InTheatresEnpoint = "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json"
+
 
 class Movie {
     let title: String?
@@ -55,9 +58,19 @@ class Movie {
     }    
 
     class func getTopMovies(successCallback: (NSArray) -> Void, errorCallback: ((NSError) -> Void)?) {
-        let RottenTomatoesURLString = "http://api.rottentomatoes.com/api/public/v1.0/lists/dvds/top_rentals.json?apikey=\(RtApiKey)"
-        let request = NSMutableURLRequest(URL: NSURL(string:RottenTomatoesURLString)!)
-
+        Movie.getMoviesFromEndpoint(TopRentalsEndpoint, successCallback: successCallback, errorCallback: errorCallback)
+    }
+    
+    class func getInTheater(successCallback: (NSArray) -> Void, errorCallback: ((NSError) -> Void)?) {
+        Movie.getMoviesFromEndpoint(InTheatresEnpoint, successCallback: successCallback, errorCallback: errorCallback)
+    }
+    
+  
+    class func getMoviesFromEndpoint(endpoint: String! ,successCallback: (NSArray) -> Void, errorCallback: ((NSError) -> Void)?) {
+        let requestString = "\(endpoint)?apikey=\(RtApiKey)"
+        
+        let request = NSMutableURLRequest(URL: NSURL(string:requestString)!)
+        
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler: {
             (response, data, error) -> Void in
             if let responseError = error? {
@@ -69,7 +82,7 @@ class Movie {
                 for jsonMovie in dictionary["movies"] as NSArray! {
                     mutableMoviesArray.addObject(Movie(jsonMovie: jsonMovie as NSDictionary))
                 }
-
+                
                 successCallback(mutableMoviesArray as NSArray)
             }
         })

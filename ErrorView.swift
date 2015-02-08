@@ -15,9 +15,9 @@ class ErrorView: UIView {
     func expand() {
         
         // for some reason the frame width was getting overwritten to 0 from the storyboard. Hence I need this first to make the animation look right
+        // works for now, better to spend time on other featuresw first
         self.frame = CGRectMake(0, 0, 380, 45)
         let expandedFrame = CGRectMake(0, 65, 380, 45)
-
         
         UIView.animateWithDuration(1, animations: {
             self.frame = expandedFrame

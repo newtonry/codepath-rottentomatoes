@@ -130,9 +130,12 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <items>
-                                    <tabBarItem systemItem="favorites" id="udQ-0Z-yM5"/>
-                                    <tabBarItem systemItem="more" id="E2Z-ym-kb1"/>
+                                    <tabBarItem title="DVD" id="udQ-0Z-yM5"/>
+                                    <tabBarItem tag="1" title="Box Office" id="E2Z-ym-kb1"/>
                                 </items>
+                                <connections>
+                                    <outlet property="delegate" destination="NUb-Yh-DfV" id="hzs-Zu-RZh"/>
+                                </connections>
                             </tabBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="89" sectionHeaderHeight="22" sectionFooterHeight="22" id="fOy-kU-L8u">
                                 <rect key="frame" x="0.0" y="109" width="320" height="410"/>
@@ -152,7 +155,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="wIV-2F-aF2">
-                                                    <rect key="frame" x="0.0" y="-1" width="78" height="89"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="89"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
@@ -174,8 +177,11 @@
                     </view>
                     <navigationItem key="navigationItem" title="Movies" id="Cj4-Wn-jdg"/>
                     <connections>
+                        <outlet property="barItemBoxOffice" destination="E2Z-ym-kb1" id="szn-ln-frz"/>
+                        <outlet property="barItemDvd" destination="udQ-0Z-yM5" id="oKJ-xV-8yt"/>
                         <outlet property="errorView" destination="c4X-bo-WXp" id="gID-aB-2rj"/>
                         <outlet property="searchBar" destination="toB-b4-kPq" id="AHN-TC-XJm"/>
+                        <outlet property="tabBar" destination="bnT-TU-Har" id="dyz-N3-e7j"/>
                         <outlet property="tableView" destination="fOy-kU-L8u" id="BDo-Af-66h"/>
                     </connections>
                 </viewController>
