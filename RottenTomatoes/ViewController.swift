@@ -29,14 +29,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.navigationController?.navigationBar.barTintColor = UIColor.blackColor()
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
 
-//        self.tabBar.selectedItem(barItemBoxOffice)
-        
-        
+        self.searchBar.showsCancelButton = true
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.insertSubview(self.refreshControl!, atIndex: 0)
     }
-
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         MBProgressHUD.showHUDAddedTo(self.view, animated: true)
@@ -53,8 +51,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-   
-        
         if let array = moviesArray {
             return array.count
         } else {
@@ -79,6 +75,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         Movie.getTopMovies(successCallback, errorCallback: self.errorHandler)
     }
 
+    // Tab Bar functionality
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem!) {
         let selectedTab: String = barItemDict[item.tag] as String
 
@@ -99,6 +96,29 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
+    // Search Bar functionality
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        let searchString = searchBar.text
+        
+        let successCallback = {
+            (moviesArray: NSArray) -> Void in
+            self.moviesArray = moviesArray
+            MBProgressHUD.hideHUDForView(self.view, animated: true)
+            self.searchBar.hidden = false
+            self.tableView.reloadData()
+        }
+        
+        self.view.endEditing(true)
+        Movie.getBySearchString(searchString, successCallback: successCallback, errorCallback: nil)
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        println("Cancelclicked")
+        self.view.endEditing(true)
+    }
+    
+    // Table View functionality
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let movie = moviesArray![indexPath.row] as Movie

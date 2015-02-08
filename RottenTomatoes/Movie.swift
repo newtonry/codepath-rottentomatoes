@@ -9,9 +9,9 @@
 import Foundation
 
 private let RtApiKey = "mvvztd3waum3d5wuzu8bb2s9"
-private let TopRentalsEndpoint = "http://api.rottentomatoes.com/api/public/v1.0/lists/dvds/top_rentals.json"
-private let InTheatresEnpoint = "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json"
-
+private let TopRentalsEndpoint = "http://api.rottentomatoes.com/api/public/v1.0/lists/dvds/top_rentals.json?"
+private let InTheatresEnpoint = "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json?"
+private let SearchEndpoint = "http://api.rottentomatoes.com/api/public/v1.0/movies.json?"
 
 class Movie {
     let title: String?
@@ -43,7 +43,12 @@ class Movie {
         let title = jsonMovie["title"] as String
         let synopsis = jsonMovie["synopsis"] as String
         
-        let runtime = jsonMovie["runtime"] as Int
+        // A janky way of getting around the fact that some movies have bad data. Probably a better way to do this
+        var runtime: Int = 0
+        if let fetchedRuntime = jsonMovie["runtime"] as? Int {
+            runtime = fetchedRuntime
+        }
+
         let posters = jsonMovie["posters"] as NSDictionary
         let thumbnailPosterString = posters["thumbnail"] as String
         let posterString = posters["original"] as String
@@ -58,21 +63,32 @@ class Movie {
     }    
 
     class func getTopMovies(successCallback: (NSArray) -> Void, errorCallback: ((NSError) -> Void)?) {
+        // Gets the top rental movies
         Movie.getMoviesFromEndpoint(TopRentalsEndpoint, successCallback: successCallback, errorCallback: errorCallback)
     }
     
     class func getInTheater(successCallback: (NSArray) -> Void, errorCallback: ((NSError) -> Void)?) {
+        // Gets the movies currently in the theaters
         Movie.getMoviesFromEndpoint(InTheatresEnpoint, successCallback: successCallback, errorCallback: errorCallback)
     }
     
+    class func getBySearchString(searchString: String, successCallback: (NSArray) -> Void, errorCallback: ((NSError) -> Void)?) {
+        // Searches for movies based on a string
+        
+        let escapedString = searchString.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+        // way better to do with with AFNetworking and params I imagine.
+        let fullQueryString = "\(SearchEndpoint)q=\(escapedString!)&"
+        getMoviesFromEndpoint(fullQueryString, successCallback: successCallback, errorCallback: errorCallback)
+        
+    }
   
     class func getMoviesFromEndpoint(endpoint: String! ,successCallback: (NSArray) -> Void, errorCallback: ((NSError) -> Void)?) {
-        let requestString = "\(endpoint)?apikey=\(RtApiKey)"
-        
+        let requestString = "\(endpoint)apikey=\(RtApiKey)"
         let request = NSMutableURLRequest(URL: NSURL(string:requestString)!)
-        
+
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler: {
             (response, data, error) -> Void in
+
             if let responseError = error? {
                 errorCallback!(responseError)
             } else {
@@ -82,7 +98,6 @@ class Movie {
                 for jsonMovie in dictionary["movies"] as NSArray! {
                     mutableMoviesArray.addObject(Movie(jsonMovie: jsonMovie as NSDictionary))
                 }
-                
                 successCallback(mutableMoviesArray as NSArray)
             }
         })

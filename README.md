@@ -21,8 +21,8 @@ Time spent: `<Number of hours spent>`
 - [ ] All images should be cached in memory and disk: AppDelegate has an instance of `NSURLCache` and `NSURLRequest` makes a request with `NSURLRequestReturnCacheDataElseLoad` cache policy. I tested it by turning off wifi and restarting the app.
 - [ ] Customize the highlight and selection effect of the cell.
 - [x] Customize the navigation bar.
-- [ ] Add a tab bar for Box Office and DVD.
-- [ ] Add a search bar: pretty simple implementation of searching against the existing table view data.
+- [x] Add a tab bar for Box Office and DVD.
+- [x] Add a search bar: pretty simple implementation of searching against the existing table view data. (Actually I searched against all of RT database for this one)
 
 ### Walkthrough
 
