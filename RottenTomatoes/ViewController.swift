@@ -79,7 +79,7 @@ class ViewController: UITableViewController  {
         
         let imageLoadSuccess = {
             (request: NSURLRequest!, reponse: NSHTTPURLResponse!, image: UIImage!) -> Void in
-            
+            movie.thumbnailImage = image
             cell.movieTitleThumb.image = image
             UIView.animateWithDuration(2, animations: {
                 cell.movieTitleThumb.alpha = 1

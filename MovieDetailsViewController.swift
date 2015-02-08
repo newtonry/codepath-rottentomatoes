@@ -26,23 +26,32 @@ class MovieDetailsViewController: UIViewController {
         self.synopsisTextView.textColor = UIColor.whiteColor()
         self.synopsisTextView.font = UIFont(name: "Helvetica", size: 18)
         self.runtimeLabel.text = "\(movie.runtime!) mins"
+        self.ratingLabel.text = "\(movie.score!)%"
         
         let imageLoadSuccess = {
             (request: NSURLRequest!, response: NSHTTPURLResponse!, image: UIImage!) -> Void in
-            self.backgroundPosterImageView.image = image
             MBProgressHUD.hideHUDForView(self.backgroundPosterImageView, animated: true)
-
+            self.backgroundPosterImageView.image = image
+            
+            UIView.animateWithDuration(1, animations: {
+                self.backgroundPosterImageView.alpha = 1
+            })
         }
         
-        let thumbnailRequest = NSURLRequest(URL: movie.posterUrl!)
-        backgroundPosterImageView.setImageWithURLRequest(thumbnailRequest, placeholderImage: nil, success: imageLoadSuccess, failure: nil)
+        let thumbnail = movie.thumbnailImage?
+        
+        
+        
+        
+        let posterRequest = NSURLRequest(URL: movie.posterUrl!)
+        backgroundPosterImageView.setImageWithURLRequest(posterRequest, placeholderImage: thumbnail!, success: imageLoadSuccess, failure: nil)
     }
     
     @IBAction func moveScreenTextUp(sender: AnyObject) {
         // Moves the text box up
         let newFrame = CGRectMake(0, 155, synopsisView.frame.width, synopsisView.frame.height)
 
-        UIView.animateWithDuration(0.5, animations: {
+        UIView.animateWithDuration(0.75, animations: {
             self.synopsisView.frame = newFrame
         })
     }
