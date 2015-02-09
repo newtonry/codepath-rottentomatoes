@@ -47,10 +47,8 @@ class MovieDetailsViewController: UIViewController {
             let thumbnail = movie.thumbnailImage?
             
             let posterRequest = NSURLRequest(URL: movie.posterUrl!)
-            backgroundPosterImageView.setImageWithURLRequest(posterRequest, placeholderImage: thumbnail!, success: imageLoadSuccess, failure: nil)
-            
+            backgroundPosterImageView.setImageWithURLRequest(posterRequest, placeholderImage: thumbnail!, success: imageLoadSuccess, failure: nil)   
         }
-        
     }
     
     @IBAction func moveScreenTextUp(sender: AnyObject) {

@@ -2,7 +2,7 @@
 
 This is a movies app displaying box office and top rental DVDs using the [Rotten Tomatoes API](http://developer.rottentomatoes.com/docs/read/JSON).
 
-Time spent: `<Number of hours spent>`
+Time spent: 15 hrs
 
 ### Features
 
@@ -17,14 +17,26 @@ Time spent: `<Number of hours spent>`
 #### Optional
 
 - [x] All images fade in.
-- [ ] For the larger poster, load the low-res first and switch to high-res when complete.
-- [ ] All images should be cached in memory and disk: AppDelegate has an instance of `NSURLCache` and `NSURLRequest` makes a request with `NSURLRequestReturnCacheDataElseLoad` cache policy. I tested it by turning off wifi and restarting the app.
+- [x] For the larger poster, load the low-res first and switch to high-res when complete.
+- [ ] All images should be cached in memory and disk: AppDelegate has an instance of `NSURLCache` and `NSURLRequest` makes a request with `NSURLRequestReturnCacheDataElseLoad` cache policy. I tested it by turning off wifi and restarting the app. (I did a different sort of caching, which is likely the incorrect way. Saved the image to the movie object once it had been loaded.)
 - [x] Customize the highlight and selection effect of the cell.
 - [x] Customize the navigation bar.
 - [x] Add a tab bar for Box Office and DVD.
 - [x] Add a search bar: pretty simple implementation of searching against the existing table view data. (Actually I searched against all of RT database for this one)
 
 ### Walkthrough
+
+User can view the list of movies, with async poster loading, look at details by tapping on the cell, pull to refresh (sadly the list doesn't change frequently enough), sees a loading state, loads the thumb before the high rest, can search through all of RottenTomatoes database.
+![Main Video Walkthrough](rotten-tomatoes.gif)
+
+Fading images (I chose to do this only on the app start)
+![Main Video Walkthrough](rotten-tomatoes-imagesfade.gif)
+
+Display an error when there's no network
+![No Network Video Walkthrough](rotten-tomatoes-nonetwork.gif)
+
+
+Notes: This was definitely a good exercise in building out a more thorough product than the tip calculator. I would definitely organize some things differently in the project if I did it again
 
 
 Credits

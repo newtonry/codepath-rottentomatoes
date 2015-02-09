@@ -9,7 +9,6 @@
 import UIKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarDelegate, UISearchBarDelegate  {
-
     
     var moviesArray: NSArray?
 
@@ -30,15 +29,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
 
         self.searchBar.showsCancelButton = true
+        self.tabBar.barTintColor = UIColor.blackColor()  // Stuff like this styling should be separated out I think
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.insertSubview(self.refreshControl!, atIndex: 0)
+        
+        self.tabBar.selectedItem = barItemDvd
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-
         
         let successCallback = {
             (moviesArray: NSArray) -> Void in
@@ -47,7 +48,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 self.searchBar.hidden = false
                 self.tableView.reloadData()
         }
-        Movie.getTopMovies(successCallback, errorHandler)
+        Movie.getDvds(successCallback, errorHandler)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -72,9 +73,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.tableView.reloadData()
         }
         
-        Movie.getTopMovies(successCallback, errorCallback: self.errorHandler)
+        Movie.getDvds(successCallback, errorCallback: self.errorHandler)
     }
 
+    
     // Tab Bar functionality
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem!) {
         let selectedTab: String = barItemDict[item.tag] as String
@@ -90,11 +92,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         
         if (selectedTab == "DVD") {
-            Movie.getTopMovies(successCallback, errorCallback: nil)
+            Movie.getDvds(successCallback, errorCallback: nil)
         } else if (selectedTab == "Box Office") {
             Movie.getInTheater(successCallback, errorCallback: nil)
         }
     }
+    
     
     // Search Bar functionality
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {

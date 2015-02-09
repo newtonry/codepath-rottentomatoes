@@ -62,7 +62,7 @@ class Movie {
         self.init(title: title, synopsis: synopsis, runtime: runtime, score: score, thumbnailPosterUrl: thumbnailPosterUrl!, posterUrl: posterUrl! )
     }    
 
-    class func getTopMovies(successCallback: (NSArray) -> Void, errorCallback: ((NSError) -> Void)?) {
+    class func getDvds(successCallback: (NSArray) -> Void, errorCallback: ((NSError) -> Void)?) {
         // Gets the top rental movies
         Movie.getMoviesFromEndpoint(TopRentalsEndpoint, successCallback: successCallback, errorCallback: errorCallback)
     }
