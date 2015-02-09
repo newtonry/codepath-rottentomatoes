@@ -34,8 +34,12 @@ Time spent: 15 hrs
 * Can search through all of RottenTomatoes database.
 ![Main Video Walkthrough](rotten-tomatoes.gif)
 
+### 
+
 * Fading images (I chose to do this only on the app start)
 ![Main Video Walkthrough](rotten-tomatoes-imagesfade.gif)
+
+### 
 
 * Display an error when there's no network
 ![No Network Video Walkthrough](rotten-tomatoes-nonetwork.gif)
