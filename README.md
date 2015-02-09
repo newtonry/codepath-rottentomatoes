@@ -26,13 +26,18 @@ Time spent: 15 hrs
 
 ### Walkthrough
 
-User can view the list of movies, with async poster loading, look at details by tapping on the cell, pull to refresh (sadly the list doesn't change frequently enough), sees a loading state, loads the thumb before the high rest, can search through all of RottenTomatoes database.
+* User can view the list of movies
+* Async poster loading
+* Look at details by tapping on the cell
+* Pull to refresh (sadly the list doesn't change frequently enough)
+* Sees a loading state, loads the thumb before the high rest 
+* Can search through all of RottenTomatoes database.
 ![Main Video Walkthrough](rotten-tomatoes.gif)
 
-Fading images (I chose to do this only on the app start)
+* Fading images (I chose to do this only on the app start)
 ![Main Video Walkthrough](rotten-tomatoes-imagesfade.gif)
 
-Display an error when there's no network
+* Display an error when there's no network
 ![No Network Video Walkthrough](rotten-tomatoes-nonetwork.gif)
 
 
