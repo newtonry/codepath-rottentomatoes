@@ -28,30 +28,36 @@ class MovieDetailsViewController: UIViewController {
         self.runtimeLabel.text = "\(movie.runtime!) mins"
         self.ratingLabel.text = "\(movie.score!)%"
         
-        let imageLoadSuccess = {
-            (request: NSURLRequest!, response: NSHTTPURLResponse!, image: UIImage!) -> Void in
-            MBProgressHUD.hideHUDForView(self.backgroundPosterImageView, animated: true)
-            self.backgroundPosterImageView.image = image
+        // This is my own temporary way of caching stuff. Doubt it's the correct way to do this.
+        if let moviePoster = movie.posterImage as UIImage! {
+            self.backgroundPosterImageView.image = moviePoster
+        } else {
+            let imageLoadSuccess = {
+                (request: NSURLRequest!, response: NSHTTPURLResponse!, image: UIImage!) -> Void in
+                MBProgressHUD.hideHUDForView(self.backgroundPosterImageView, animated: true)
+                self.backgroundPosterImageView.image = image
+                self.movie.posterImage = image
+
+    // No need to animate this anymore since we're loading from the thumbnail, which was already saved by the tableview
+    //            UIView.animateWithDuration(1, animations: {
+    //                self.backgroundPosterImageView.alpha = 1
+    //            })
+            }
             
-            UIView.animateWithDuration(1, animations: {
-                self.backgroundPosterImageView.alpha = 1
-            })
+            let thumbnail = movie.thumbnailImage?
+            
+            let posterRequest = NSURLRequest(URL: movie.posterUrl!)
+            backgroundPosterImageView.setImageWithURLRequest(posterRequest, placeholderImage: thumbnail!, success: imageLoadSuccess, failure: nil)
+            
         }
         
-        let thumbnail = movie.thumbnailImage?
-        
-        
-        
-        
-        let posterRequest = NSURLRequest(URL: movie.posterUrl!)
-        backgroundPosterImageView.setImageWithURLRequest(posterRequest, placeholderImage: thumbnail!, success: imageLoadSuccess, failure: nil)
     }
     
     @IBAction func moveScreenTextUp(sender: AnyObject) {
         // Moves the text box up
-        let newFrame = CGRectMake(0, 155, synopsisView.frame.width, synopsisView.frame.height)
+        let newFrame = CGRectMake(0, 156, synopsisView.frame.width, synopsisView.frame.height)
 
-        UIView.animateWithDuration(0.75, animations: {
+        UIView.animateWithDuration(0.6, animations: {
             self.synopsisView.frame = newFrame
         })
     }

@@ -12,7 +12,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="gO7-eH-6t9">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="gO7-eH-6t9">
                                 <rect key="frame" x="0.0" y="60" width="380" height="564"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -59,6 +59,10 @@
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tomato.png" id="pfu-lk-h0b">
+                                        <rect key="frame" x="285" y="34" width="30" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.60999999999999999" colorSpace="calibratedRGB"/>
                             </view>
@@ -133,8 +137,8 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <items>
-                                    <tabBarItem title="DVD" id="udQ-0Z-yM5"/>
-                                    <tabBarItem tag="1" title="Box Office" id="E2Z-ym-kb1"/>
+                                    <tabBarItem title="DVD" image="cd-30x30.png" id="udQ-0Z-yM5"/>
+                                    <tabBarItem tag="1" title="Box Office" image="film-30x30.png" id="E2Z-ym-kb1"/>
                                 </items>
                                 <connections>
                                     <outlet property="delegate" destination="NUb-Yh-DfV" id="hzs-Zu-RZh"/>
@@ -151,9 +155,9 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Tc7-2I-snF">
-                                                    <rect key="frame" x="86" y="33" width="371" height="21"/>
+                                                    <rect key="frame" x="68" y="34" width="216" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.97981106510000004" green="0.97981106510000004" blue="0.97981106510000004" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -161,10 +165,22 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="60" height="89"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tomato.png" id="set-GE-EYQ">
+                                                    <rect key="frame" x="290" y="30" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="89" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ota-9W-NOR">
+                                                    <rect key="frame" x="330" y="37" width="45" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" red="0.1326729911" green="0.1326729911" blue="0.1326729911" alpha="1" colorSpace="calibratedRGB"/>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="movieRating" destination="ota-9W-NOR" id="NQU-5R-EI6"/>
                                             <outlet property="movieTitleLabel" destination="Tc7-2I-snF" id="fbO-L9-qVN"/>
                                             <outlet property="movieTitleThumb" destination="wIV-2F-aF2" id="vR6-w8-iQP"/>
                                         </connections>
@@ -193,6 +209,11 @@
             <point key="canvasLocation" x="-165" y="758"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="cd-30x30.png" width="30" height="30"/>
+        <image name="film-30x30.png" width="30" height="30"/>
+        <image name="tomato.png" width="50" height="52"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

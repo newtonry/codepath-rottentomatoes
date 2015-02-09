@@ -114,18 +114,23 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        println("Cancelclicked")
         self.view.endEditing(true)
     }
     
-    // Table View functionality
     
+    // Table View functionality
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let movie = moviesArray![indexPath.row] as Movie
         let cell = tableView.dequeueReusableCellWithIdentifier("topCell") as MovieTableViewCell
         cell.movieTitleLabel.text = movie.title
+        cell.movieRating.text = "\(movie.score!)"
         let thumbnailUrl = movie.thumbnailPosterUrl
 
+        // Adjusts the color of the cells background upon selection
+        let selectedColorView = UIView()
+        selectedColorView.backgroundColor = UIColor.grayColor()
+        cell.selectedBackgroundView = selectedColorView
+        
         let imageLoadSuccess = {
             (request: NSURLRequest!, reponse: NSHTTPURLResponse!, image: UIImage!) -> Void in
             movie.thumbnailImage = image
