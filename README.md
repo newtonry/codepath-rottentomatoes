@@ -42,7 +42,13 @@ Time spent: 15 hrs
 ### 
 
 * Display an error when there's no network
-### 
+
+
+
+
+
+
+
 ![No Network Video Walkthrough](rotten-tomatoes-nonetwork.gif)
 
 
